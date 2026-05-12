@@ -3,6 +3,20 @@ import { MapContainer, TileLayer, LayerGroup, Polyline, CircleMarker, useMap } f
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
+// Simulated current location: Lochem, NL
+const USER_LOCATION = [52.158, 6.417]
+
+function UserLocationMarker() {
+  return (
+    <>
+      <CircleMarker center={USER_LOCATION} radius={14}
+        pathOptions={{ color: '#3B82F6', fillColor: '#3B82F6', fillOpacity: 0.15, weight: 0 }} />
+      <CircleMarker center={USER_LOCATION} radius={8}
+        pathOptions={{ color: 'white', fillColor: '#3B82F6', fillOpacity: 1, weight: 3 }} />
+    </>
+  )
+}
+
 const PURPLE = '#7744CB'
 const RED = '#E53535'
 const AMBER = '#F59E0B'
@@ -87,11 +101,12 @@ function RouteLayer({ route, inTrip, isSaved, highlighted, onRouteClick }) {
 
 export default function MapView({ routes = [], tripRouteIds = [], savedRouteIds = [], highlightedRouteId, onRouteClick, onMapReady }) {
   return (
-    <MapContainer center={[50.5, 10]} zoom={5}
+    <MapContainer center={USER_LOCATION} zoom={13}
       style={{ width: '100%', height: '100%' }}
       zoomControl={false} attributionControl={false}
     >
       <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
+      <UserLocationMarker />
       <MapController
         highlightedRoute={routes.find(r => r.id === highlightedRouteId)}
         onMapReady={onMapReady}
