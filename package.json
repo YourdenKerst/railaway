@@ -4,12 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "node server.js",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "start": "NODE_ENV=production node server.js",
+    "lint": "eslint ."
   },
   "dependencies": {
+    "express": "^4.22.2",
     "interrail": "^3.0.4",
     "leaflet": "^1.9.4",
     "react": "^19.2.6",
