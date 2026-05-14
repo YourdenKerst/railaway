@@ -7,8 +7,10 @@ export default function StationSearch({ label, placeholder, value, onSelect }) {
   const [loading, setLoading] = useState(false)
   const timer = useRef(null)
   const skipClose = useRef(false)
+  const justPicked = useRef(false)
 
   useEffect(() => {
+    if (justPicked.current) { justPicked.current = false; return }
     if (query.length < 2) { setResults([]); setOpen(false); return }
     clearTimeout(timer.current)
     timer.current = setTimeout(async () => {
@@ -25,6 +27,7 @@ export default function StationSearch({ label, placeholder, value, onSelect }) {
   }, [query])
 
   const pick = (station) => {
+    justPicked.current = true
     setQuery(station.name)
     setOpen(false)
     setResults([])
