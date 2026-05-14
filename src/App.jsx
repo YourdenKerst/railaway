@@ -12,6 +12,7 @@ import { useTrips } from './hooks/useTrips'
 import { RAILAWAY_ROUTES } from './data/railawayRoutes'
 import { COMMUNITY_ROUTES } from './data/communityRoutes'
 import { routeMidpoint } from './components/MapView'
+import logoImg from './assets/rail_away_go_logo trans.png'
 import './index.css'
 
 const MapView = lazy(() => import('./components/MapView'))
@@ -280,16 +281,9 @@ export default function App() {
 
       {/* Search bar + logo */}
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] px-5 pt-6 z-20 flex items-center gap-3">
-        {/* Railaway logo circle */}
-        <div className="flex-shrink-0 w-11 h-11 rounded-full overflow-hidden flex items-center justify-center"
-          style={{ background: '#0a0a0a', boxShadow: '0 2px 12px rgba(119,68,203,0.45)' }}>
-          <div style={{ position: 'relative', width: 38, height: 38 }}>
-            <div style={{ position: 'absolute', width: 26, height: 26, borderRadius: '50%', background: '#7744cb', bottom: 4, right: 3 }} />
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', paddingLeft: 5 }}>
-              <span style={{ color: 'white', fontSize: 7.5, fontWeight: 600, lineHeight: 1.3, fontFamily: 'sans-serif', letterSpacing: 0.2 }}>rail</span>
-              <span style={{ color: 'white', fontSize: 9.5, fontWeight: 900, lineHeight: 1, fontFamily: 'sans-serif', letterSpacing: -0.3 }}>aWay</span>
-            </div>
-          </div>
+        {/* Railaway logo */}
+        <div className="flex-shrink-0 w-14 h-14 rounded-full bg-black flex items-center justify-center shadow-md">
+          <img src={logoImg} alt="Rail aWay Go" className="w-[96px] h-[96px] object-contain" />
         </div>
         <div className="flex-1 flex items-center bg-white/90 backdrop-blur-md rounded-xl px-4 h-14 shadow-sm border border-gray-100">
           <Icon name="search" className="mr-3 text-[#7744cb]" />

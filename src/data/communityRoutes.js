@@ -12,7 +12,10 @@ export const COMMUNITY_ROUTES = [
     likes: 147, travelers: 1,
     communityPost: true, communityUser: 'saartje_reist',
     stops: [
-      { name: 'Utrecht', coords: [52.0893, 5.1101] },
+      { name: 'Utrecht Centraal', coords: [52.0893, 5.1101] },
+      { name: "'s-Hertogenbosch", coords: [51.6978, 5.2972] },
+      { name: 'Eindhoven', coords: [51.4416, 5.4797] },
+      { name: 'Sittard', coords: [50.9993, 5.8490] },
       { name: 'Maastricht', coords: [50.8514, 5.6910] },
     ],
   },
@@ -30,6 +33,8 @@ export const COMMUNITY_ROUTES = [
     communityPost: true, communityUser: 'trainspotter_mike',
     stops: [
       { name: 'Rotterdam Centraal', coords: [51.9225, 4.4792] },
+      { name: 'Dordrecht', coords: [51.8167, 4.6690] },
+      { name: 'Roosendaal', coords: [51.5308, 4.4642] },
       { name: 'Antwerpen Centraal', coords: [51.2194, 4.4025] },
     ],
   },
@@ -47,6 +52,10 @@ export const COMMUNITY_ROUTES = [
     communityPost: true, communityUser: 'julia_wanderlust',
     stops: [
       { name: 'Amsterdam Centraal', coords: [52.3791, 4.9003] },
+      { name: 'Utrecht Centraal', coords: [52.0893, 5.1101] },
+      { name: 'Arnhem', coords: [51.9851, 5.8987] },
+      { name: 'Oberhausen', coords: [51.4686, 6.8500] },
+      { name: 'Hannover', coords: [52.3760, 9.7416] },
       { name: 'Berlin Hauptbahnhof', coords: [52.5200, 13.4050] },
     ],
   },
@@ -64,6 +73,9 @@ export const COMMUNITY_ROUTES = [
     communityPost: true, communityUser: 'nordic_explorer',
     stops: [
       { name: 'Bergen', coords: [60.3913, 5.3221] },
+      { name: 'Voss', coords: [60.6283, 6.4147] },
+      { name: 'Gudvangen', coords: [60.8759, 6.8281] },
+      { name: 'Hellesylt', coords: [62.0831, 6.8867] },
       { name: 'Ålesund', coords: [62.4722, 6.1549] },
     ],
   },
@@ -81,6 +93,10 @@ export const COMMUNITY_ROUTES = [
     communityPost: true, communityUser: 'isa_on_rails',
     stops: [
       { name: 'Den Haag HS', coords: [52.0697, 4.3175] },
+      { name: 'Rotterdam Centraal', coords: [51.9225, 4.4792] },
+      { name: 'Dordrecht', coords: [51.8167, 4.6690] },
+      { name: 'Bergen op Zoom', coords: [51.4960, 4.2886] },
+      { name: 'Goes', coords: [51.5046, 3.8877] },
       { name: 'Middelburg', coords: [51.4988, 3.6136] },
     ],
   },
@@ -98,6 +114,8 @@ export const COMMUNITY_ROUTES = [
     communityPost: true, communityUser: 'romain_roule',
     stops: [
       { name: 'Paris Gare de Lyon', coords: [48.8448, 2.3738] },
+      { name: 'Dijon-Ville', coords: [47.3197, 5.0267] },
+      { name: 'Mâcon-Loché TGV', coords: [46.3100, 4.8450] },
       { name: 'Lyon Part-Dieu', coords: [45.7606, 4.8590] },
     ],
   },
@@ -115,6 +133,9 @@ export const COMMUNITY_ROUTES = [
     communityPost: true, communityUser: 'alpen_thomas',
     stops: [
       { name: 'Zürich HB', coords: [47.3779, 8.5404] },
+      { name: 'Zug', coords: [47.1660, 8.5155] },
+      { name: 'Luzern', coords: [47.0502, 8.3093] },
+      { name: 'Bellinzona', coords: [46.1959, 9.0237] },
       { name: 'Lugano', coords: [46.0050, 8.9520] },
     ],
   },
@@ -132,6 +153,8 @@ export const COMMUNITY_ROUTES = [
     communityPost: true, communityUser: 'emma_op_de_rails',
     stops: [
       { name: 'Groningen', coords: [53.2107, 6.5669] },
+      { name: 'Grijpskerk', coords: [53.2622, 6.2945] },
+      { name: 'Buitenpost', coords: [53.2557, 6.1406] },
       { name: 'Leeuwarden', coords: [53.1980, 5.7999] },
     ],
   },

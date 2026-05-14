@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import { MapContainer, TileLayer, LayerGroup, Polyline, CircleMarker, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -16,6 +16,66 @@ function UserLocationMarker() {
     </>
   )
 }
+
+// ── Real railway path: via Vite dev-server proxy → Overpass + A* ─────
+const railPathCache = new Map()
+
+function useRailPath(routeId, stops, enabled) {
+  const [realPath, setRealPath] = useState(() => railPathCache.get(routeId) ?? null)
+  useEffect(() => {
+    if (!enabled || !stops || stops.length < 2 || !routeId || railPathCache.has(routeId)) return
+    const params = new URLSearchParams({ stops: JSON.stringify(stops) })
+    fetch(`/api/rail-path?${params}`)
+      .then(r => r.json())
+      .then(path => {
+        if (Array.isArray(path) && path.length > 2) {
+          railPathCache.set(routeId, path)
+          setRealPath(path)
+        }
+      })
+      .catch(() => {})
+  }, [routeId, enabled])
+  return realPath
+}
+// ─────────────────────────────────────────────────────────────────────
+
+// ── Path smoothing ────────────────────────────────────────────────────
+function catmullRomPt(p0, p1, p2, p3, t) {
+  const t2 = t * t, t3 = t2 * t
+  return [
+    0.5 * (2*p1[0] + (-p0[0]+p2[0])*t + (2*p0[0]-5*p1[0]+4*p2[0]-p3[0])*t2 + (-p0[0]+3*p1[0]-3*p2[0]+p3[0])*t3),
+    0.5 * (2*p1[1] + (-p0[1]+p2[1])*t + (2*p0[1]-5*p1[1]+4*p2[1]-p3[1])*t2 + (-p0[1]+3*p1[1]-3*p2[1]+p3[1])*t3),
+  ]
+}
+
+function bendTwoPoints(pts) {
+  const [a, b] = pts
+  const dlat = b[0] - a[0], dlng = b[1] - a[1]
+  const len = Math.sqrt(dlat * dlat + dlng * dlng)
+  if (len === 0) return pts
+  const pl = -dlng / len, pn = dlat / len
+  const sign = Math.abs(Math.sin(a[0] * 127.1 + b[1] * 311.7)) > 0.5 ? 1 : -1
+  const mag = len * 0.09 * sign
+  return [
+    a,
+    [a[0] + dlat * 0.3 + pl * mag * 0.7, a[1] + dlng * 0.3 + pn * mag * 0.7],
+    [a[0] + dlat * 0.7 + pl * mag * 0.9, a[1] + dlng * 0.7 + pn * mag * 0.9],
+    b,
+  ]
+}
+
+function smoothPath(rawPts, n = 10) {
+  const pts = rawPts.length === 2 ? bendTwoPoints(rawPts) : rawPts
+  if (pts.length < 2) return pts
+  const p = [pts[0], ...pts, pts[pts.length - 1]]
+  const out = []
+  for (let i = 1; i < p.length - 2; i++) {
+    for (let j = 0; j < n; j++) out.push(catmullRomPt(p[i-1], p[i], p[i+1], p[i+2], j / n))
+  }
+  out.push(pts[pts.length - 1])
+  return out
+}
+// ─────────────────────────────────────────────────────────────────────
 
 const PURPLE = '#7744CB'
 const RED = '#E53535'
@@ -57,7 +117,7 @@ function MapController({ highlightedRoute, onMapReady }) {
     if (!path?.length) return
     try {
       const bounds = L.latLngBounds(path)
-      map.fitBounds(bounds, { padding: [80, 80], maxZoom: 10, animate: true, duration: 0.6 })
+      map.fitBounds(bounds, { padding: [80, 80], maxZoom: 12, animate: true, duration: 0.6 })
     } catch {}
   }, [highlightedRoute?.id])
 
@@ -65,8 +125,11 @@ function MapController({ highlightedRoute, onMapReady }) {
 }
 
 function RouteLayer({ route, inTrip, isSaved, highlighted, onRouteClick }) {
-  const path = routePath(route)
-  if (!path || path.length < 2) return null
+  const rawPath = routePath(route)
+  const realPath = useRailPath(route.id, rawPath, highlighted)
+  const displayPath = realPath ?? (rawPath ? smoothPath(rawPath) : null)
+
+  if (!displayPath || displayPath.length < 2) return null
   const color = routeColor(route, inTrip, isSaved)
   const handlers = { click: (e) => { e.originalEvent?.stopPropagation(); onRouteClick(route) } }
 
@@ -76,7 +139,7 @@ function RouteLayer({ route, inTrip, isSaved, highlighted, onRouteClick }) {
 
   return (
     <LayerGroup>
-      <Polyline positions={path} pathOptions={lineOpts} eventHandlers={handlers} />
+      <Polyline positions={displayPath} pathOptions={lineOpts} eventHandlers={handlers} />
 
       {route.stops?.filter(s => s?.coords).map((stop, i) => (
         <CircleMarker key={i} center={stop.coords}
