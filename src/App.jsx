@@ -280,7 +280,7 @@ export default function App() {
       />
 
       {/* Search bar + logo */}
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] px-5 pt-6 z-20 flex items-center gap-3">
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] px-5 pt-safe z-20 flex items-center gap-3">
         {/* Railaway logo */}
         <div className="flex-shrink-0 w-14 h-14 rounded-full bg-black flex items-center justify-center shadow-md">
           <img src={logoImg} alt="Rail aWay Go" className="w-[96px] h-[96px] object-contain" />

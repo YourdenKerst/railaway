@@ -7,6 +7,22 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* Prevent iOS tap highlight flash on all interactive elements */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Prevent iOS from zooming in on input focus (font-size must be ≥16px) */
+input, textarea, select { font-size: 16px; }
+
+/* Safe-area padding utilities */
+.pt-safe { padding-top: max(1.5rem, env(safe-area-inset-top)); }
+.pb-nav-safe { padding-bottom: max(1.5rem, env(safe-area-inset-bottom)); }
+
+/* On desktop the CSS dynamic island sits at top 13px + 37px = 50px,
+   so the topbar needs at least 56px to clear it */
+@media (min-width: 600px) {
+  .pt-safe { padding-top: max(3.5rem, env(safe-area-inset-top)); }
+}
+
 body {
   font-family: 'Nunito Sans', sans-serif;
   background: #f9f9f9;
@@ -22,6 +38,67 @@ body {
   position: relative;
   overflow: hidden;
 }
+
+/* ── iPhone skin (desktop only) ──────────────────────────────────── */
+@media (min-width: 600px) {
+  body {
+    background: linear-gradient(145deg, #0d0d1a 0%, #1a1040 50%, #0d1a33 100%);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+
+  #root {
+    height: min(844px, 90dvh);
+    width: 390px;
+    max-width: 390px;
+    margin: 0;
+    border-radius: 54px;
+    /* transform creates a new containing block so position:fixed stays inside */
+    transform: translateZ(0);
+    /* Bezel layers: inner glass edge → body → outer ring */
+    box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,0.08),
+      0 0 0 2px #48484a,
+      0 0 0 11px #1c1c1e,
+      0 0 0 13px #3a3a3c,
+      0 50px 120px rgba(0,0,0,0.8),
+      0 0 60px rgba(80,60,180,0.15);
+  }
+
+  /* Dynamic island */
+  #root::before {
+    content: '';
+    position: absolute;
+    top: 13px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 126px;
+    height: 37px;
+    background: #000;
+    border-radius: 20px;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  /* Home indicator */
+  #root::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 134px;
+    height: 5px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 3px;
+    z-index: 9999;
+    pointer-events: none;
+  }
+}
+/* ─────────────────────────────────────────────────────────────────── */
 
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
