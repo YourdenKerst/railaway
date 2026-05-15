@@ -210,7 +210,7 @@ export default function AddRoute({ onSave, onBack }) {
 
   return (
     <div className="flex flex-col h-full overflow-hidden bg-[#f9f9f9]">
-      <header className="sticky top-0 z-10 flex items-center gap-3 px-5 h-16 bg-[#f9f9f9]/90 backdrop-blur-md border-b border-gray-100">
+      <header className="sticky top-0 z-10 flex items-center gap-3 px-5 pt-safe bg-[#f9f9f9]/90 backdrop-blur-md border-b border-gray-100" style={{ minHeight: '4rem' }}>
         <button onClick={onBack} className="flex items-center justify-center w-9 h-9 rounded-full hover:bg-surface-container transition-colors">
           <span className="material-symbols-outlined text-on-surface">arrow_back</span>
         </button>

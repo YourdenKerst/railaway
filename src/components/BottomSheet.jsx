@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react'
 
 export default function BottomSheet({ children, title, action }) {
-  const windowH = window.innerHeight
+  const containerH = document.getElementById('root')?.clientHeight ?? window.innerHeight
   const PEEK = 140
-  const MID = Math.round(windowH * 0.48)
-  const FULL = Math.round(windowH * 0.92)
+  const MID = Math.round(containerH * 0.48)
+  const FULL = Math.round(containerH * 0.82)
   const snaps = [PEEK, MID, FULL]
 
   const [height, setHeight] = useState(MID)
@@ -74,7 +74,7 @@ export default function BottomSheet({ children, title, action }) {
       </div>
 
       {/* Scrollable list */}
-      <div className="overflow-y-auto flex-1 px-5 pb-24 space-y-3 overscroll-contain">
+      <div className="overflow-y-auto flex-1 px-5 space-y-3 overscroll-contain" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom, 0px))' }}>
         {children}
       </div>
     </div>

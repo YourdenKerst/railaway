@@ -19,7 +19,7 @@ function Icon({ name, fill = false, className = '' }) {
 
 export default function BottomNav({ active, onChange }) {
   return (
-    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] z-50 flex justify-around items-center px-5 pt-2 pb-6 bg-white/90 backdrop-blur-xl border-t border-gray-100">
+    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[430px] z-50 flex justify-around items-center px-5 pt-2 pb-nav-safe bg-white/90 backdrop-blur-xl border-t border-gray-100">
       {ITEMS.map(item => {
         if (item.id === 'toevoegen') {
           return (
